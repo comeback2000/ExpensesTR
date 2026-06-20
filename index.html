@@ -1,122 +1,752 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Tour Expense Tracker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        .updated {
-            color: #666;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="description" content="A clean personal expense tracker dashboard for GitHub Pages.">
+    <title>FastStack Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=backup-restore-1">
+    <script src="config.js?v=google-sheets-v10"></script>
+    <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script defer src="app.js?v=backup-restore-1"></script>
+  </head>
+  <body>
+    <section class="login-screen" id="loginScreen" aria-label="Account access">
+      <div class="login-panel">
+        <div class="login-mark"><i data-lucide="lock-keyhole" aria-hidden="true"></i></div>
+        <p class="eyebrow">Protected Access</p>
+        <h1>FastStack Expense Tracker</h1>
 
-    <h1>Privacy Policy</h1>
+        <div class="segmented-control auth-switch" role="tablist" aria-label="Account actions">
+          <button id="loginTabButton" class="active" type="button" data-auth-view="login" role="tab" aria-selected="true">Login</button>
+          <button id="signupTabButton" type="button" data-auth-view="signup" role="tab" aria-selected="false">Sign Up</button>
+        </div>
 
-    <p class="updated"><strong>Last Updated:</strong> June 16, 2026</p>
+        <form class="auth-form" id="loginForm" data-auth-panel="login">
+          <label class="field">
+            <span>Email</span>
+            <input id="emailInput" type="email" autocomplete="username" placeholder="you@gmail.com" required>
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input id="passwordInput" type="password" autocomplete="current-password" placeholder="Enter password" required>
+          </label>
+          <button class="primary-button" type="submit">
+            <i data-lucide="log-in" aria-hidden="true"></i>
+            Unlock Dashboard
+          </button>
+          <button class="text-button" id="forgotPasswordButton" type="button">Forgot password?</button>
+        </form>
 
-    <p>
-        Welcome to <strong>Tour Expense Tracker</strong>. We respect your privacy and are committed
-        to protecting your personal information. This Privacy Policy explains how we collect,
-        use, and safeguard information when you use our mobile application.
-    </p>
+        <form class="auth-form hidden" id="signupForm" data-auth-panel="signup">
+          <label class="field">
+            <span>Gmail Address</span>
+            <input id="signupEmailInput" type="email" autocomplete="email" placeholder="you@gmail.com" required>
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input id="signupPasswordInput" type="password" autocomplete="new-password" placeholder="Minimum 8 characters" required minlength="8">
+          </label>
+          <label class="field">
+            <span>Confirm Password</span>
+            <input id="signupConfirmInput" type="password" autocomplete="new-password" placeholder="Repeat password" required minlength="8">
+          </label>
+          <button class="primary-button" type="submit">
+            <i data-lucide="user-plus" aria-hidden="true"></i>
+            Create Account
+          </button>
+        </form>
 
-    <h2>1. Information We Collect</h2>
-    <p>Tour Expense Tracker may collect the following information:</p>
-    <ul>
-        <li>Expense records entered by users</li>
-        <li>Trip details and expense categories</li>
-        <li>Device information required for app functionality</li>
-        <li>Application usage and diagnostic information</li>
-    </ul>
+        <form class="auth-form hidden" id="verifyForm" data-auth-panel="verify">
+          <label class="field">
+            <span>Gmail Address</span>
+            <input id="verifyEmailInput" type="email" autocomplete="email" placeholder="you@gmail.com" required>
+          </label>
+          <label class="field">
+            <span>Verification Code</span>
+            <input id="verifyCodeInput" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code" required maxlength="12">
+          </label>
+          <button class="primary-button" type="submit">
+            <i data-lucide="badge-check" aria-hidden="true"></i>
+            Verify Email
+          </button>
+          <button class="text-button" id="resendVerificationButton" type="button">Resend code</button>
+        </form>
 
-    <h2>2. How We Use Information</h2>
-    <p>We use collected information to:</p>
-    <ul>
-        <li>Provide and maintain app functionality</li>
-        <li>Store and organize expense records</li>
-        <li>Improve application performance and user experience</li>
-        <li>Identify and resolve technical issues</li>
-    </ul>
+        <form class="auth-form hidden" id="resetRequestForm" data-auth-panel="reset-request">
+          <label class="field">
+            <span>Gmail Address</span>
+            <input id="resetEmailInput" type="email" autocomplete="email" placeholder="you@gmail.com" required>
+          </label>
+          <button class="primary-button" type="submit">
+            <i data-lucide="mail" aria-hidden="true"></i>
+            Send Reset Code
+          </button>
+          <button class="text-button" id="backToLoginFromResetButton" type="button">Back to login</button>
+        </form>
 
-    <h2>3. Data Storage and Security</h2>
-    <p>
-        User data is stored locally on the device unless cloud synchronization
-        features are enabled in future versions of the application.
-    </p>
-    <p>
-        We implement reasonable security measures to protect data against
-        unauthorized access, alteration, disclosure, or destruction.
-    </p>
+        <form class="auth-form hidden" id="resetPasswordForm" data-auth-panel="reset-password">
+          <label class="field">
+            <span>Gmail Address</span>
+            <input id="resetConfirmEmailInput" type="email" autocomplete="email" placeholder="you@gmail.com" required>
+          </label>
+          <label class="field">
+            <span>Reset Code</span>
+            <input id="resetCodeInput" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code" required maxlength="6">
+          </label>
+          <label class="field">
+            <span>New Password</span>
+            <input id="resetPasswordInput" type="password" autocomplete="new-password" placeholder="Minimum 8 characters" required minlength="8">
+          </label>
+          <button class="primary-button" type="submit">
+            <i data-lucide="key-round" aria-hidden="true"></i>
+            Update Password
+          </button>
+        </form>
 
-    <h2>4. Third-Party Services</h2>
-    <p>
-        The application may use third-party services that may collect information
-        used to identify you. Examples include:
-    </p>
-    <ul>
-        <li>Google Play Services</li>
-        <li>Firebase Analytics (if enabled)</li>
-        <li>Firebase Crashlytics (if enabled)</li>
-    </ul>
+        <p class="form-message" id="loginMessage" role="status" aria-live="polite"></p>
+      </div>
+    </section>
 
-    <h2>5. Data Sharing</h2>
-    <p>
-        We do not sell, trade, or rent users' personal information to third parties.
-    </p>
-    <p>
-        Information may be disclosed only if required by law or necessary to
-        protect legal rights and comply with legal obligations.
-    </p>
+    <main class="app-shell hidden" id="appShell">
+      <aside class="side-nav" aria-label="Main navigation">
+        <div class="brand-block">
+          <div class="brand-mark">F</div>
+          <strong>FastStack<br>Spend</strong>
+        </div>
+        <nav class="nav-list">
+          <button class="nav-button active" type="button" data-page-target="dashboard">
+            <i data-lucide="home" aria-hidden="true"></i>
+            Dashboard
+          </button>
+          <button class="nav-button" type="button" data-page-target="projects">
+            <i data-lucide="briefcase" aria-hidden="true"></i>
+            Projects
+          </button>
+          <button class="nav-button" type="button" data-page-target="transactions">
+            <i data-lucide="list" aria-hidden="true"></i>
+            Transactions
+          </button>
+          <button class="nav-button" type="button" data-page-target="reports">
+            <i data-lucide="file-text" aria-hidden="true"></i>
+            Reports
+          </button>
+          <button class="nav-button" type="button" data-page-target="analytics">
+            <i data-lucide="chart-column" aria-hidden="true"></i>
+            Analytics
+          </button>
+          <button class="nav-button" type="button" data-page-target="settings">
+            <i data-lucide="settings" aria-hidden="true"></i>
+            Settings
+          </button>
+        </nav>
+        <button class="nav-button logout-nav" id="logoutButton" type="button">
+          <i data-lucide="log-out" aria-hidden="true"></i>
+          Logout
+        </button>
+      </aside>
 
-    <h2>6. Children's Privacy</h2>
-    <p>
-        Tour Expense Tracker is not directed toward children under the age of 13.
-        We do not knowingly collect personal information from children.
-    </p>
+      <section class="app-main">
+        <header class="page-topbar">
+          <h1 id="pageTitle">Dashboard</h1>
+          <div class="toolbar">
+            <label class="field compact">
+              <span>Currency</span>
+              <select id="currencySelect" aria-label="Currency">
+                <option value="USD">USD</option>
+                <option value="INR">INR</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+              </select>
+            </label>
+            <button class="icon-button" type="button" aria-label="Notifications" title="Notifications">
+              <i data-lucide="bell" aria-hidden="true"></i>
+            </button>
+            <div class="user-avatar" id="userAvatar">R</div>
+          </div>
+        </header>
 
-    <h2>7. User Rights</h2>
-    <p>Users have the right to:</p>
-    <ul>
-        <li>Access their stored data</li>
-        <li>Delete expense records within the application</li>
-        <li>Uninstall the application at any time</li>
-    </ul>
+        <section class="app-page active" id="dashboardPage" data-page="dashboard" aria-label="Dashboard">
+          <section class="summary-grid" aria-label="Spending summary">
+            <article class="metric-card">
+              <div class="metric-icon mint"><i data-lucide="briefcase" aria-hidden="true"></i></div>
+              <div>
+                <span>Total Projects</span>
+                <strong id="activeGroups">0</strong>
+                <small>Active Projects</small>
+              </div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-icon coral"><i data-lucide="arrow-down-to-line" aria-hidden="true"></i></div>
+              <div>
+                <span>Total Cash In</span>
+                <strong id="cashInTotal">$0</strong>
+                <small>All Projects</small>
+              </div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-icon gold"><i data-lucide="receipt-text" aria-hidden="true"></i></div>
+              <div>
+                <span>Total Cash Out</span>
+                <strong id="weekTotal">$0</strong>
+                <small>All Projects</small>
+              </div>
+            </article>
+            <article class="metric-card">
+              <div class="metric-icon blue"><i data-lucide="scale" aria-hidden="true"></i></div>
+              <div>
+                <span>Net Balance</span>
+                <strong id="runningBalance">$0</strong>
+                <small>All Projects</small>
+              </div>
+            </article>
+          </section>
 
-    <h2>8. Changes to This Privacy Policy</h2>
-    <p>
-        We may update this Privacy Policy from time to time. Any changes will be
-        posted on this page with an updated revision date.
-    </p>
+          <section class="dashboard-grid">
+            <article class="panel">
+              <div class="panel-heading inline-heading">
+                <h2>Recent Transactions</h2>
+                <button class="text-button" type="button" data-page-link="transactions">View all</button>
+              </div>
+              <div class="compact-list" id="recentTransactionsList"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading inline-heading">
+                <h2>Top Projects by Balance</h2>
+                <button class="text-button" type="button" data-page-link="projects">View all</button>
+              </div>
+              <div class="project-rank-list" id="topProjectsList"></div>
+            </article>
+          </section>
 
-    <h2>9. Contact Us</h2>
-    <p>
-        If you have any questions about this Privacy Policy, please contact us:
-    </p>
+          <section class="quick-actions">
+            <button class="primary-button" id="quickCashInButton" type="button">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              Cash In
+            </button>
+            <button class="ghost-button" id="quickCashOutButton" type="button">
+              <i data-lucide="minus" aria-hidden="true"></i>
+              Cash Out
+            </button>
+            <button class="ghost-button" id="quickProjectButton" type="button">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              Add Project
+            </button>
+            <button class="ghost-button" id="dashboardPdfButton" type="button">
+              <i data-lucide="download" aria-hidden="true"></i>
+              Download PDF
+            </button>
+          </section>
+        </section>
 
-    <p>
-        <strong>Developer:</strong> FastStack <br>
-        <strong>Email:</strong> dwpg002@gmail.com
-    </p>
+        <section class="app-page" id="projectsPage" data-page="projects" aria-label="Projects">
+          <div class="page-actions">
+            <div class="tab-row">
+              <button class="tab-button active" type="button">All <span id="projectAllCount">(0)</span></button>
+              <button class="tab-button" type="button">Active <span id="projectActiveCount">(0)</span></button>
+              <button class="tab-button" type="button">Closed (0)</button>
+            </div>
+            <div class="filters">
+              <label class="field compact search-field">
+                <span>Search</span>
+                <input id="projectSearchInput" type="search" placeholder="Search projects...">
+              </label>
+              <button class="primary-button" id="projectAddButton" type="button">
+                <i data-lucide="plus" aria-hidden="true"></i>
+                Add Project
+              </button>
+            </div>
+          </div>
+          <section class="panel">
+            <div class="table-wrap">
+              <table class="projects-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Project Name</th>
+                    <th scope="col" class="amount-col">Cash In</th>
+                    <th scope="col" class="amount-col">Cash Out</th>
+                    <th scope="col" class="amount-col">Balance</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" class="actions-col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="projectTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
 
-    <hr>
+        <section class="app-page" id="transactionsPage" data-page="transactions" aria-label="Transactions">
+          <div class="page-actions">
+            <div class="filters">
+              <label class="field compact">
+                <span>Project</span>
+                <select id="categoryFilter"></select>
+              </label>
+              <label class="field compact">
+                <span>Type</span>
+                <select id="transactionTypeFilter">
+                  <option value="All">All Types</option>
+                  <option value="cash-in">Cash In</option>
+                  <option value="expense">Cash Out</option>
+                </select>
+              </label>
+              <label class="field compact search-field">
+                <span>Search</span>
+                <input id="searchInput" type="search" placeholder="Search entries">
+              </label>
+              <label class="field compact">
+                <span>Week</span>
+                <input id="weekFilter" type="week">
+              </label>
+            </div>
+            <div class="filters global-search-row">
+              <label class="global-search-label">
+                <input id="globalSearchCheckbox" type="checkbox">
+                <span><i data-lucide="search" aria-hidden="true"></i> Search All Transactions (ignore Project & Week filters)</span>
+              </label>
+            </div>
+            <button class="primary-button" id="transactionAddButton" type="button">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              Add Transaction
+            </button>
+          </div>
+          <section class="workspace page-workspace">
+            <aside class="panel entry-panel" aria-label="Transaction form">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Transaction</p>
+              <h2 id="formTitle">Add Expense</h2>
+            </div>
+            <button class="icon-button hidden" id="cancelEditButton" type="button" aria-label="Cancel edit" title="Cancel edit">
+              <i data-lucide="x" aria-hidden="true"></i>
+            </button>
+          </div>
 
-    <p>
-        By using Tour Expense Tracker, you agree to the terms of this Privacy Policy.
-    </p>
+          <div class="segmented-control" role="tablist" aria-label="Transaction type">
+            <button id="expenseModeButton" class="active" type="button" data-mode="expense" role="tab" aria-selected="true">
+              <i data-lucide="receipt" aria-hidden="true"></i>
+              Expense
+            </button>
+            <button id="cashInModeButton" type="button" data-mode="cash-in" role="tab" aria-selected="false">
+              <i data-lucide="circle-dollar-sign" aria-hidden="true"></i>
+              Cash In
+            </button>
+          </div>
 
-</body>
+          <form id="expenseForm" class="expense-form">
+            <input type="hidden" id="expenseId">
+            <label class="field">
+              <span id="descriptionLabel">Description</span>
+              <input id="descriptionInput" name="description" type="text" placeholder="Groceries, taxi, project supplies" required maxlength="80">
+            </label>
+            <div class="form-grid">
+              <label class="field">
+                <span>Amount</span>
+                <input id="amountInput" name="amount" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="0.00" required>
+              </label>
+              <label class="field">
+                <span>Date</span>
+                <input id="dateInput" name="date" type="date" required>
+              </label>
+              <label class="field">
+                <span>Time</span>
+                <input id="timeInput" name="time" type="time" required>
+              </label>
+            </div>
+            <label class="field">
+              <span id="categoryLabel">Expense Group</span>
+              <select id="categoryInput" name="category" required></select>
+            </label>
+            <label class="field hidden" id="customGroupField">
+              <span>Custom Group</span>
+              <input id="customGroupInput" name="customGroup" type="text" placeholder="Client event, field team, launch budget" maxlength="60">
+            </label>
+            <label class="field">
+              <span>Notes</span>
+              <textarea id="notesInput" name="notes" rows="3" placeholder="Optional details"></textarea>
+            </label>
+            <button class="primary-button" id="submitButton" type="submit">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              Add Expense
+            </button>
+            <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+          </form>
+            </aside>
+            <section class="panel table-panel">
+              <div class="table-wrap">
+                <table class="ledger-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Date / Time</th>
+                      <th scope="col">Project</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Description</th>
+                      <th scope="col" class="amount-col">Cash In</th>
+                      <th scope="col" class="amount-col">Cash Out</th>
+                      <th scope="col" class="amount-col">Balance</th>
+                      <th scope="col" class="actions-col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="allTransactionsTable"></tbody>
+                </table>
+              </div>
+              <p class="table-note" id="transactionCountLabel">Showing 0 transactions</p>
+            </section>
+          </section>
+        </section>
+
+        <section class="app-page" id="reportsPage" data-page="reports" aria-label="Reports">
+          <div class="tab-row report-tabs">
+            <button class="tab-button active" type="button">Project Summary</button>
+            <button class="tab-button" type="button">Cash Flow</button>
+            <button class="tab-button" type="button">Daily Report</button>
+            <button class="tab-button" type="button">Monthly Report</button>
+          </div>
+          <section class="panel report-panel">
+            <div class="filters report-filter-row">
+              <label class="field compact">
+                <span>Select Project</span>
+                <select id="projectGroupSelect" aria-label="Project Name"></select>
+              </label>
+              <label class="field compact">
+                <span>From Date</span>
+                <input id="reportFromDate" type="date">
+              </label>
+              <label class="field compact">
+                <span>To Date</span>
+                <input id="reportToDate" type="date">
+              </label>
+              <button class="primary-button" id="generateReportButton" type="button">
+                <i data-lucide="plus" aria-hidden="true"></i>
+                Generate Report
+              </button>
+            </div>
+
+            <div class="report-metrics">
+              <article class="metric-card compact-metric">
+                <span>Cash In</span>
+                <strong id="reportCashIn">$0</strong>
+              </article>
+              <article class="metric-card compact-metric danger-metric">
+                <span>Cash Out</span>
+                <strong id="reportCashOut">$0</strong>
+              </article>
+              <article class="metric-card compact-metric">
+                <span>Net Balance</span>
+                <strong id="reportBalance">$0</strong>
+              </article>
+              <article class="metric-card compact-metric info-metric">
+                <span>Transactions</span>
+                <strong id="reportTransactionCount">0</strong>
+              </article>
+            </div>
+
+            <div class="sheet-meta">
+              <div>
+                <span>Project-name</span>
+                <strong id="projectNameLabel">-</strong>
+              </div>
+              <div>
+                <span>Cash-in</span>
+                <strong id="groupLedgerCashIn">$0</strong>
+              </div>
+              <div>
+                <span>Cash-Out</span>
+                <strong id="groupLedgerCashOut">$0</strong>
+              </div>
+              <div>
+                <span>Balance</span>
+                <strong id="groupLedgerBalance">$0</strong>
+              </div>
+            </div>
+
+            <div class="table-wrap sheet-wrap">
+              <table class="sheet-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Date/Time</th>
+                    <th scope="col" class="amount-col">Cash-in</th>
+                    <th scope="col" class="amount-col">Cash-Out</th>
+                    <th scope="col" class="amount-col">Balance</th>
+                    <th scope="col">Des</th>
+                    <th scope="col" class="actions-col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="groupLedgerTable"></tbody>
+              </table>
+              <div id="groupLedgerEmptyState" class="empty-state hidden">
+                <i data-lucide="table-2" aria-hidden="true"></i>
+                <strong>No entries for this group</strong>
+                <span>Add Cash In or Expense entries for the selected project.</span>
+              </div>
+            </div>
+
+            <div class="report-actions">
+              <span>Download as:</span>
+              <button class="primary-button" id="pdfExportButton" type="button">
+                <i data-lucide="file-text" aria-hidden="true"></i>
+                PDF
+              </button>
+              <button class="ghost-button" id="exportButton" type="button">
+                <i data-lucide="download" aria-hidden="true"></i>
+                Excel
+              </button>
+            </div>
+          </section>
+        </section>
+
+        <section class="app-page" id="analyticsPage" data-page="analytics" aria-label="Analytics">
+          <div class="page-actions">
+            <div></div>
+            <div class="filters">
+              <label class="field compact">
+                <span>Project</span>
+                <select id="analyticsProjectFilter"></select>
+              </label>
+              <label class="field compact">
+                <span>Week</span>
+                <input id="analyticsWeekFilter" type="week">
+              </label>
+            </div>
+          </div>
+          <div class="analytics-grid">
+            <article class="panel chart-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Trend</p>
+                  <h2>Weekly Spending</h2>
+                </div>
+                <span id="trendDelta" class="status-pill">No change</span>
+              </div>
+              <div id="trendChart" class="bar-chart" aria-label="Weekly spending trend"></div>
+            </article>
+
+            <article class="panel category-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Budgets</p>
+                  <h2>Allocation</h2>
+                </div>
+              </div>
+              <div id="categoryBreakdown" class="category-list"></div>
+            </article>
+          </div>
+          <section class="panel daily-panel" aria-label="Daily expense breakdown">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Daily View</p>
+                <h2>Daily Expense Breakdown</h2>
+              </div>
+            </div>
+            <div id="dailyBreakdown" class="daily-breakdown"></div>
+          </section>
+        </section>
+
+        <section class="app-page" id="settingsPage" data-page="settings" aria-label="Settings">
+          <div class="tab-row report-tabs">
+            <button class="tab-button active" type="button">Profile</button>
+            <button class="tab-button" type="button">Security</button>
+            <button class="tab-button" type="button">Preferences</button>
+            <button class="tab-button" type="button">Google Sheets</button>
+            <button class="tab-button" type="button">Backup</button>
+          </div>
+          <section class="management-grid" aria-label="Record management">
+            <section class="panel management-panel" aria-label="Category management">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Categories</p>
+                  <h2>Manage Groups</h2>
+                </div>
+                <button class="icon-button hidden" id="cancelGroupEditButton" type="button" aria-label="Cancel category edit" title="Cancel edit">
+                  <i data-lucide="x" aria-hidden="true"></i>
+                </button>
+              </div>
+              <form id="groupForm" class="inline-form">
+                <input type="hidden" id="groupOriginalName">
+                <label class="field">
+                  <span>Group Name</span>
+                  <input id="groupNameInput" type="text" placeholder="Delhi Tour" maxlength="60" required>
+                </label>
+                <label class="field color-field">
+                  <span>Color</span>
+                  <input id="groupColorInput" type="color" value="#0f766e" required>
+                </label>
+                <button class="primary-button" id="groupSubmitButton" type="submit">
+                  <i data-lucide="folder-plus" aria-hidden="true"></i>
+                  Save Group
+                </button>
+              </form>
+              <p class="form-message" id="groupMessage" role="status" aria-live="polite"></p>
+              <div class="table-wrap compact-table-wrap">
+                <table class="management-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Group</th>
+                      <th scope="col" class="amount-col">Cash In</th>
+                      <th scope="col" class="amount-col">Spent</th>
+                      <th scope="col" class="amount-col">Balance</th>
+                      <th scope="col" class="actions-col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="groupTable"></tbody>
+                </table>
+                <div id="groupEmptyState" class="empty-state hidden">
+                  <i data-lucide="folder-open" aria-hidden="true"></i>
+                  <strong>No groups yet</strong>
+                  <span>Create a group before adding transactions.</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel management-panel" aria-label="Account management">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Users</p>
+                  <h2>My Account</h2>
+                </div>
+              </div>
+              <dl class="account-summary">
+                <div>
+                  <dt>Email</dt>
+                  <dd id="accountEmail">-</dd>
+                </div>
+                <div>
+                  <dt>Role</dt>
+                  <dd id="accountRole">-</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd id="accountStatus">-</dd>
+                </div>
+                <div>
+                  <dt>Verified</dt>
+                  <dd id="accountVerified">-</dd>
+                </div>
+              </dl>
+              <form id="passwordForm" class="expense-form account-form">
+                <label class="field">
+                  <span>Current Password</span>
+                  <input id="currentPasswordInput" type="password" autocomplete="current-password" placeholder="Current password" required minlength="8">
+                </label>
+                <label class="field">
+                  <span>New Password</span>
+                  <input id="newPasswordInput" type="password" autocomplete="new-password" placeholder="New password" required minlength="8">
+                </label>
+                <label class="field">
+                  <span>Confirm New Password</span>
+                  <input id="confirmNewPasswordInput" type="password" autocomplete="new-password" placeholder="Repeat new password" required minlength="8">
+                </label>
+                <button class="primary-button" type="submit">
+                  <i data-lucide="key-round" aria-hidden="true"></i>
+                  Update Password
+                </button>
+              </form>
+              <button class="ghost-button danger-button" id="deleteAccountButton" type="button">
+                <i data-lucide="user-x" aria-hidden="true"></i>
+                Delete My Account
+              </button>
+              <p class="form-message" id="accountMessage" role="status" aria-live="polite"></p>
+            </section>
+          </section>
+
+          <section class="panel backup-panel" aria-label="Backup and restore">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Backup</p>
+                <h2>Google Drive Backup & Restore</h2>
+              </div>
+              <div class="row-actions">
+                <button class="ghost-button" id="refreshBackupsButton" type="button">
+                  <i data-lucide="refresh-cw" aria-hidden="true"></i>
+                  Refresh
+                </button>
+                <button class="primary-button" id="createBackupButton" type="button">
+                  <i data-lucide="cloud-upload" aria-hidden="true"></i>
+                  Backup Now
+                </button>
+              </div>
+            </div>
+            <div class="backup-summary">
+              <div>
+                <span>Schedule</span>
+                <strong>Daily at 2:15 AM IST</strong>
+              </div>
+              <div>
+                <span>Retention</span>
+                <strong id="backupRetentionLabel">30 days</strong>
+              </div>
+              <div>
+                <span>Storage</span>
+                <a id="backupFolderLink" href="#" target="_blank" rel="noopener">Google Drive Folder</a>
+              </div>
+            </div>
+            <div class="table-wrap compact-table-wrap">
+              <table class="backup-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Backup</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Size</th>
+                    <th scope="col" class="actions-col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="backupTable"></tbody>
+              </table>
+              <div id="backupEmptyState" class="empty-state hidden">
+                <i data-lucide="archive" aria-hidden="true"></i>
+                <strong>No backups found</strong>
+                <span>Create a backup now or wait for the daily schedule.</span>
+              </div>
+            </div>
+            <p class="form-message" id="backupMessage" role="status" aria-live="polite"></p>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <div class="modal-backdrop hidden" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <section class="detail-modal">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" id="detailType">Details</p>
+            <h2 id="detailTitle">Transaction Details</h2>
+          </div>
+          <button class="icon-button" id="detailCloseButton" type="button" aria-label="Close details" title="Close">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+        </div>
+        <dl class="detail-grid">
+          <div>
+            <dt>Project Name</dt>
+            <dd id="detailGroup">-</dd>
+          </div>
+          <div>
+            <dt>Date/Time</dt>
+            <dd id="detailDateTime">-</dd>
+          </div>
+          <div>
+            <dt>Cash-in</dt>
+            <dd id="detailCashIn">-</dd>
+          </div>
+          <div>
+            <dt>Cash-Out</dt>
+            <dd id="detailCashOut">-</dd>
+          </div>
+          <div class="detail-wide">
+            <dt>Des</dt>
+            <dd id="detailDescription">-</dd>
+          </div>
+          <div class="detail-wide">
+            <dt>Notes</dt>
+            <dd id="detailNotes">-</dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  </body>
 </html>
